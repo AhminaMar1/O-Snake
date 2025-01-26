@@ -10,25 +10,28 @@
 	<body>
 		<div class="container">
 			<header>
-				<div class="header">
-					<h1>O-Snake</h1>
-					<nav>
-						<ul>
-							<li>Animation O(N)</li>
-							<li>Animation O(1)</li>
-							<li>Play O(N)</li>
-							<li>Play O(1)</li>
-						</ul>
-					</nav>
+				<div class="logo">
+					<img src="/logo.svg" width="60" height="60" alt="O-Snake logo" />
+					<h1>- SNAKE</h1>
 				</div>
+				<p>To demonstrate time-space complexity variations using different data structures</p>
 			</header>
-			<div class="main">
-				<div>game</div>
-				<div>explain</div>
+			<nav>
+				<ul>
+					<li>Animation O(N)</li>
+					<li>Animation O(1)</li>
+					<li>Play O(N)</li>
+					<li>Play O(1)</li>
+				</ul>
+			</nav>
+			<div class="mainContainer">
+				<div class="main">
+					<div class="snakeBoard">
+						<canvas id="snakeBoardGame" width="640" height="440"></canvas>
+					</div>
+					<div class="explainBoard"><h3>Explaining: big O 1</h3></div>
+				</div>
 			</div>
-			<footer>
-				O-Snake demonstrates time-space complexity variations using different data structures
-			</footer>
 		</div>
 		<script type="module" src="/src/main.ts"></script>
 	</body>
