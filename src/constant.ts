@@ -1,16 +1,12 @@
-import { DirecitonByKey } from './types';
+import { DirecitonByKey, DirectionKeys } from './types';
 
 export const W = 640;
 export const H = 440;
 
 export const ONE_UNIT = 10;
 
-export const INIT_SNAKE = [
-	[100, 100],
-	[100 + ONE_UNIT, 100],
-	[100 + 2 * ONE_UNIT, 100],
-	[100 + 3 * ONE_UNIT, 100],
-];
+const LEN = 10;
+export const INIT_SNAKE = new Array(LEN).fill(0).map((_, key) => [100 + (key * ONE_UNIT), 100]);
 
 const UP = 'up',
 	DOWN = 'down',
@@ -25,6 +21,13 @@ export const DIRECTION_BY_KEY_OBJ: DirecitonByKey = {
 	[LEFT]: [-1, 0],
 	[RIGHT]: [1, 0],
 };
+
+export const DIRXY_TO_NAME: {[key:string]: DirectionKeys} = {
+	'0-1': UP,
+	'01': DOWN,
+	'-10': LEFT,
+	'10': RIGHT,
+}
 
 export const INVALID_DIRS_WHEN_DIR = {
 	[UP]: DOWN,

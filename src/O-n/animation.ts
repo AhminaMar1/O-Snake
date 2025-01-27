@@ -1,3 +1,4 @@
+import { ONE_UNIT } from "../constant";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let snakeBoard: any;
 
@@ -14,8 +15,8 @@ const getSnakeBoard = () => {
 const animation = (from: number[], to: number[]) => {
 	snakeBoard = snakeBoard || getSnakeBoard();
 	if (!snakeBoard) return console.error('the snake borad not founded, try again');
-	snakeBoard.clearRect(from[0], from[1], 10, 10);
-	snakeBoard.fillRect(to[0], to[1], 10, 10);
+	snakeBoard.clearRect(from[0], from[1], ONE_UNIT, ONE_UNIT);
+	snakeBoard.fillRect(to[0], to[1], ONE_UNIT, ONE_UNIT);
 };
 
 export default animation;
