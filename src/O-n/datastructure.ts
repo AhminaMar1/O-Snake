@@ -9,7 +9,7 @@ import {
 	DIRXY_TO_NAME,
 } from '../constant';
 import { XYDirections, DirectionKeys, DirecitonByKey } from '../types';
-	
+
 class SnakeOn {
 	private array: number[][]; // array as a base datastructure for the snake parts
 	private hashSet;
@@ -17,13 +17,15 @@ class SnakeOn {
 	private intervalId: ReturnType<typeof setInterval> | undefined;
 	private direcitonByKey: DirecitonByKey;
 	private animationCallback: (from: number[], to: number[]) => void;
+	private foodPos: number[];
 	private dirName: DirectionKeys;
 	readonly oneUnit = ONE_UNIT;
 
 	constructor(animationCallback: (from: number[], to: number[]) => void) {
 		this.direcitonByKey = { ...DIRECTION_BY_KEY_OBJ };
 		this.array = [...INIT_SNAKE.map((el) => [...el])];
-		this.hashSet = new Set(this.array.map(pos => this.hashFn(pos)));
+		this.foodPos = [W, H];
+		this.hashSet = new Set(this.array.map((pos) => this.hashFn(pos)));
 		this.direction = { ...DIRECTION_BY_KEY_OBJ[DEFAULT_DIR] }; // [x, y]
 		this.dirName = DEFAULT_DIR;
 		this.animationCallback = animationCallback;
@@ -31,7 +33,8 @@ class SnakeOn {
 
 	private hashFn = (pos: number[]) => pos[0] + '-' + pos[1];
 	private addToHashSet = (pos: number[]) => this.hashSet.add(this.hashFn(pos));
-	private addArrayToHashSet = (arr: number[][]) => arr.forEach((pos: number[]) => this.addToHashSet(pos));
+	private addArrayToHashSet = (arr: number[][]) =>
+		arr.forEach((pos: number[]) => this.addToHashSet(pos));
 	private hashSetHas = (pos: number[]) => this.hashSet.has(this.hashFn(pos));
 	private deleteFromHashSet = (pos: number[]) => this.hashSet.delete(this.hashFn(pos));
 	private clearHashSet = () => this.hashSet.clear();
@@ -43,15 +46,31 @@ class SnakeOn {
 		}
 	}
 
+	private randomFood() {
+		const xF = Math.floor(Math.random() * (W / ONE_UNIT)) * ONE_UNIT;
+		const yF = Math.floor(Math.random() * (H / ONE_UNIT)) * ONE_UNIT;
+
+		[this.foodPos[0], this.foodPos[1]] = [xF, yF];
+		this.animationCallback([W, H], this.foodPos);
+	}
+
 	private move() {
 		const len = this.array.length - 1;
 		const head = this.array[len];
 		const xTrans = this.direction[0] * this.oneUnit;
 		const yTrans = this.direction[1] * this.oneUnit;
-		const keyForName = ''+this.direction[0]+''+this.direction[1];
+		const keyForName = '' + this.direction[0] + '' + this.direction[1];
 		this.dirName = DIRXY_TO_NAME[keyForName];
 		let nextPos = [head[0] + xTrans, head[1] + yTrans];
 		let prevPointer;
+
+		const checkEatFood = this.checkEatFood(nextPos[0], nextPos[1]);
+
+		if (checkEatFood) {
+			this.array.push(nextPos);
+			this.checkLose();
+			return;
+		}
 
 		for (let i = len; i >= 0; i--) {
 			//O(n) time complixity depend on the length of the snake
@@ -65,6 +84,14 @@ class SnakeOn {
 		}
 		this.deleteFromHashSet(nextPos);
 		this.checkLose();
+	}
+
+	private checkEatFood(x: number, y: number) {
+		if (x === this.foodPos[0] && y === this.foodPos[1]) {
+			this.randomFood();
+			return true;
+		}
+		return false;
 	}
 
 	private checkLose() {
@@ -82,6 +109,7 @@ class SnakeOn {
 
 	gameOver() {
 		this.stopGame();
+		this.animationCallback(this.foodPos, [W, H]);
 		this.array.forEach((el: number[]) => {
 			this.animationCallback(el, [W, H]); // remove the old board
 		});
@@ -98,6 +126,7 @@ class SnakeOn {
 	}
 
 	startGame() {
+		this.randomFood();
 		this.intervalId = setInterval(() => {
 			this.move();
 		}, 80);

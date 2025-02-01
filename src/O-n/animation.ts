@@ -1,4 +1,4 @@
-import { ONE_UNIT } from "../constant";
+import { ONE_UNIT } from '../constant';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let snakeBoard: any;
 
