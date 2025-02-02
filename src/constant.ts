@@ -37,3 +37,10 @@ export const INVALID_DIRS_WHEN_DIR = {
 	[LEFT]: RIGHT,
 	[RIGHT]: LEFT,
 };
+
+export const FORMAT_KEY_CODE: { [key: string]: DirectionKeys } = {
+	ArrowUp: 'up',
+	ArrowDown: 'down',
+	ArrowLeft: 'left',
+	ArrowRight: 'right',
+};

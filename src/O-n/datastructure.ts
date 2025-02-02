@@ -90,6 +90,10 @@ class SnakeOn {
 		if (x === this.foodPos[0] && y === this.foodPos[1]) {
 			this.randomFood();
 			return true;
+		} else if (this.hashSetHas(this.foodPos)) {
+			setTimeout(() => {
+				this.animationCallback([W, H], this.foodPos);
+			}, 0);
 		}
 		return false;
 	}
