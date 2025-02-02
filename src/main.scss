@@ -80,16 +80,19 @@ nav {
 .main {
 	font-family: 'Noto Sans', serif;
 	display: flex;
-	padding-top: 100px;
+	height: calc(100vh - 130px);
+	align-items: center;
 	gap: 30px;
 }
 
 .snakeBoard {
 	border: 3px solid #555;
+	height: 440px;
 }
 
 .explainBoard {
 	width: 400px;
+	height: 440px;
 	background-color: #333;
 	border: 2px solid #000;
 	color: #efefef;
